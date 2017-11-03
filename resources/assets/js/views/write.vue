@@ -33,7 +33,7 @@
         </div>
       </div>
       <div class="row">
-        <button class="btn btn-primary" v-on:click="testValidation">
+        <button class="btn btn-primary" v-on:click="submitForm">
           I like what I see!
         </button>
       </div>
