@@ -86,6 +86,9 @@
         methods : {
           submitForm: function() {
             const vm = this;
+            if(this.picture == 'upload'){
+              this.picture = '';
+            }
             axios.post('/blog', {
               title: this.title,
               body: this.body,
@@ -127,7 +130,7 @@
           onFileUpload: function(filename) {
             let originalFile = filename.split("_")[1];
             let originalName = originalFile.split(".")[0];
-            
+
             this.pictures.push({name: originalName, value: filename});
             this.picture = filename;
           }

@@ -30311,6 +30311,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   methods: {
     submitForm: function submitForm() {
       var vm = this;
+      if (this.picture == 'upload') {
+        this.picture = '';
+      }
       axios.post('/blog', {
         title: this.title,
         body: this.body,
@@ -33566,50 +33569,64 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    mounted: function mounted() {
-        console.log('Component file upload mounted.');
-    },
-    data: function data() {
-        return {
-            image: '',
-            imageName: ''
-        };
-    },
+  mounted: function mounted() {
+    console.log('Component file upload mounted.');
+  },
+  data: function data() {
+    return {
+      image: '',
+      imageName: ''
+    };
+  },
 
-    methods: {
-        onFileChange: function onFileChange(e) {
-            var files = e.target.files || e.dataTransfer.files;
-            if (!files.length) return;
-            this.createImage(files[0]);
-            this.imageName = files[0]['name'];
-        },
-        createImage: function createImage(file) {
-            var reader = new FileReader();
-            var vm = this;
-            reader.onload = function (e) {
-                vm.image = e.target.result;
-            };
-            reader.readAsDataURL(file);
-        },
-        upload: function upload() {
-            var vm = this;
-            axios.post('/blog/image', {
-                image: this.image,
-                imageName: this.imageName
-            }).then(function (response) {
-                Event.$emit('fileUploaded', {
-                    filename: response.data.filename
-                });
-            }).catch(function (error) {
-                Vue.swal({
-                    title: 'File Upload Failure!',
-                    text: "File size should be less than 2Mb",
-                    type: 'warning',
-                    confirmButtonText: "Okay gotcha!"
-                });
-            });
+  methods: {
+    onFileChange: function onFileChange(e) {
+      var files = e.target.files || e.dataTransfer.files;
+      var vm = this;
+      if (!files.length) return;
+      this.createImage(files[0]).then(function (result) {
+        console.log(result);
+        vm.upload();
+      });
+      this.imageName = files[0]['name'];
+    },
+    createImage: function createImage(file) {
+      var _this = this;
+
+      return new Promise(function (resolve, reject) {
+        var reader = new FileReader();
+        var vm = _this;
+        reader.onload = function (e) {
+          vm.image = e.target.result;
+        };
+        reader.readAsDataURL(file);
+
+        if (_this.image != "") {
+          resolve("Stuff worked!");
+        } else {
+          reject("It broke");
         }
+      });
+    },
+    upload: function upload() {
+      var vm = this;
+      axios.post('/blog/image', {
+        image: this.image,
+        imageName: this.imageName
+      }).then(function (response) {
+        Event.$emit('fileUploaded', {
+          filename: response.data.filename
+        });
+      }).catch(function (error) {
+        Vue.swal({
+          title: 'File Upload Failure!',
+          text: "File size should be less than 2Mb",
+          type: 'warning',
+          confirmButtonText: "Okay gotcha!"
+        });
+      });
     }
+  }
 });
 
 /***/ }),
