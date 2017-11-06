@@ -33,7 +33,7 @@
       <div class="row">
         <div class="form-group">
           <label for="image">Image</label>
-          <select  name='image' v-model="picture" @fileUploaded="onFileUpload">
+          <select  name='image' v-model="picture">
             <option value="upload">Upload a new picture</option>
             <option value="sky.jpg">sky</option>
             <option value="ocean.jpg">ocean</option>
@@ -64,7 +64,12 @@
 <script>
     export default {
         mounted() {
-            console.log('Component write mounted.')
+            console.log('Component write mounted.');
+            let vm = this;
+            Event.$on('fileUploaded', function(event){
+              console.log(event.filename);
+              vm.onFileUpload(event.filename);
+            });
         },
 
 
@@ -118,8 +123,8 @@
             this.errors = {};
           } ,
 
-          onFileUpload: function() {
-            alert("hello");
+          onFileUpload: function(filename) {
+            this.picture = filename;
           }
 
         },

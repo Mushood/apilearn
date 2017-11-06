@@ -16206,6 +16206,8 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_sweetalert2__["a" /* default */]);
 Vue.use(__WEBPACK_IMPORTED_MODULE_2_simple_vue_validator___default.a);
 
 Vue.component('file-upload', __webpack_require__(64));
+
+window.Event = new Vue();
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -30374,6 +30376,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     console.log('Component write mounted.');
+    var vm = this;
+    Event.$on('fileUploaded', function (event) {
+      console.log(event.filename);
+      vm.onFileUpload(event.filename);
+    });
   },
   data: function data() {
     return {
@@ -30422,8 +30429,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.errors = {};
     },
 
-    onFileUpload: function onFileUpload() {
-      alert("hello");
+    onFileUpload: function onFileUpload(filename) {
+      this.picture = filename;
     }
 
   }
@@ -30560,7 +30567,6 @@ var render = function() {
                     ],
                     attrs: { name: "image" },
                     on: {
-                      fileUploaded: _vm.onFileUpload,
                       change: function($event) {
                         var $$selectedVal = Array.prototype.filter
                           .call($event.target.options, function(o) {
@@ -33566,6 +33572,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+    mounted: function mounted() {
+        console.log('Component file upload mounted.');
+    },
     data: function data() {
         return {
             image: '',
@@ -33594,8 +33603,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 image: this.image,
                 imageName: this.imageName
             }).then(function (response) {
-                alert("about to emit");
-                vm.$emit('fileUploaded');
+                Event.$emit('fileUploaded', {
+                    filename: response.data.filename
+                });
             });
         }
     }

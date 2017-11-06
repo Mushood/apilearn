@@ -16,6 +16,11 @@
 
 <script>
     export default{
+
+      mounted() {
+          console.log('Component file upload mounted.');
+      },
+
         data(){
             return {
                 image: '',
@@ -45,8 +50,9 @@
                   imageName: this.imageName
                 })
                 .then(response => {
-                  alert("about to emit");
-                  vm.$emit('fileUploaded');
+                  Event.$emit('fileUploaded',{
+                    filename: response.data.filename,
+                  });
                 });
             }
         }
