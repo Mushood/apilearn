@@ -10,6 +10,7 @@
     </div>
     <div class="col-md-6">
       Blog form
+      <form method="POST" action="/blog" @submit.prevent="submitForm">
       <div class="row">
         <div class="form-group">
           <label for="title">Title</label>
@@ -33,10 +34,11 @@
         </div>
       </div>
       <div class="row">
-        <button class="btn btn-primary" v-on:click="submitForm">
+        <button class="btn btn-primary">
           I like what I see!
         </button>
       </div>
+    </form>
     </div>
   </div>
 </template>
@@ -71,7 +73,7 @@
               image: this.picture
             })
             .then(function (response) {
-              vm.resetForm();
+
 
               if(response.data.operation == "success"){
                 Vue.swal({
@@ -80,12 +82,17 @@
                   type: 'success',
                   confirmButtonText: 'Cool'
                 });
-
+                vm.resetForm();
               }
 
             })
             .catch(function (error) {
-              console.log(error);
+              Vue.swal({
+                title: 'Failure!',
+                text: error.message,
+                type: 'warning',
+                confirmButtonText: 'Cool'
+              });
             });
           } ,
 
