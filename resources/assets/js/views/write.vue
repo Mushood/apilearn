@@ -1,4 +1,5 @@
 <template>
+<div class="page_wrapper">
   <div class="row">
     <div class="col-md-6">
       <h1>Preview</h1>
@@ -32,20 +33,32 @@
       <div class="row">
         <div class="form-group">
           <label for="image">Image</label>
-          <select  name='image' v-model="picture">
+          <select  name='image' v-model="picture" @fileUploaded="onFileUpload">
+            <option value="upload">Upload a new picture</option>
             <option value="sky.jpg">sky</option>
             <option value="ocean.jpg">ocean</option>
           </select>
+          <span v-if="errors.errors">
+            <h5 v-if="errors.errors.image" class="alert alert-danger">{{errors.errors.image[0]}}</h5>
+          </span>
+        </div>
+        <div class="form-group" v-if="this.picture == 'upload'">
+          <label for="image">Image</label>
+          <input type="file" class="form-control" name="uploadedPic">
         </div>
       </div>
       <div class="row">
-        <button class="btn btn-primary">
+        <button type="submit" class="btn btn-primary">
           I like what I see!
         </button>
       </div>
     </form>
     </div>
   </div>
+  <div class="row">
+    <file-upload></file-upload>
+  </div>
+</div>
 </template>
 
 <script>
@@ -57,9 +70,9 @@
 
         data() {
           return {
-            title: 'Blog Title',
-            body: 'Blog Message',
-            picture: "sky.jpg",
+            title: '',
+            body: '',
+            picture: "",
             errors: {}
           };
         },
@@ -102,7 +115,12 @@
             this.title = '';
             this.body = '';
             this.picture = '';
+            this.errors = {};
           } ,
+
+          onFileUpload: function() {
+            alert("hello");
+          }
 
         },
 

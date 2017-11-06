@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Blog;
+use Intervention\Image\ImageManager;
+use Carbon\Carbon;
 
 class BlogController extends Controller
 {
@@ -47,6 +49,19 @@ class BlogController extends Controller
     {
       return response()->json([
           'blog' => $blog,
+      ]);
+    }
+
+    public function storeImage(Request $request)
+    {
+      $imageData = $request->get('image');
+      $filename =  $request->get('imageName');
+      $fileName = Carbon::now()->timestamp . '_' . $filename;
+      $manager = new ImageManager();
+      $savedImage= $manager->make($request->get('image'))->save(public_path('images/').$fileName);
+      return response()->json([
+        'error' => false,
+        'filename' => $fileName
       ]);
     }
 }

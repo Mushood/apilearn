@@ -20,6 +20,7 @@ Route::get('/spa', 'SpaController@index')->name('spa');
 Route::get('/blog', 'BlogController@index')->name('blog.store');
 Route::get('/blog/{blog}', 'BlogController@show')->name('blog.show');
 Route::post('/blog', 'BlogController@store')->name('blog.store');
+Route::post('/blog/image', 'BlogController@storeImage')->name('blog.store.image');
 
 Auth::routes();
 
