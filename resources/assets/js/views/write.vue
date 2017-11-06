@@ -3,11 +3,11 @@
   <div class="row">
     <div class="col-md-6">
       <h1>Preview</h1>
-      <h2>{{title}}</h2>
-      <p>
+      <h2 v-if="title">{{title}}</h2>
+      <p v-if="body">
           {{body}}
       </p>
-      <img :src="'/images/'+ picture" class="img-responsive col-md-10" alt="image" />
+      <img :src="'/images/'+ picture" class="img-responsive col-md-10" alt="image" v-if="picture"/>
     </div>
     <div class="col-md-6">
       Blog form
@@ -35,18 +35,17 @@
           <label for="image">Image</label>
           <select  name='image' v-model="picture">
             <option value="upload">Upload a new picture</option>
-            <option value="sky.jpg">sky</option>
-            <option value="ocean.jpg">ocean</option>
+            <option v-for="picture in pictures" :value="picture.value">{{picture.name}}</option>
           </select>
           <span v-if="errors.errors">
             <h5 v-if="errors.errors.image" class="alert alert-danger">{{errors.errors.image[0]}}</h5>
           </span>
         </div>
-        <div class="form-group" v-if="this.picture == 'upload'">
-          <label for="image">Image</label>
-          <input type="file" class="form-control" name="uploadedPic">
+        <div class="row" v-if="this.picture == 'upload'">
+          <file-upload></file-upload>
         </div>
       </div>
+      <hr />
       <div class="row">
         <button type="submit" class="btn btn-primary">
           I like what I see!
@@ -55,9 +54,7 @@
     </form>
     </div>
   </div>
-  <div class="row">
-    <file-upload></file-upload>
-  </div>
+
 </div>
 </template>
 
@@ -78,6 +75,10 @@
             title: '',
             body: '',
             picture: "",
+            pictures: [
+              {name: 'ocean', value:'ocean.jpg'},
+              {name: 'sky', value:'sky.jpg'},
+            ],
             errors: {}
           };
         },
@@ -124,6 +125,10 @@
           } ,
 
           onFileUpload: function(filename) {
+            let originalFile = filename.split("_")[1];
+            let originalName = originalFile.split(".")[0];
+            
+            this.pictures.push({name: originalName, value: filename});
             this.picture = filename;
           }
 

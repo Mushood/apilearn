@@ -1,15 +1,13 @@
 <template>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="col-md-2">
-                <img :src="image" class="img-responsive">
-            </div>
-            <div class="col-md-8">
-                <input type="file" v-on:change="onFileChange" class="form-control">
-            </div>
-            <div class="col-md-2">
-                <button class="btn btn-success btn-block" @click="upload">Upload</button>
-            </div>
+    <div class="col-md-12">
+        <div class="col-md-2">
+            <img :src="image" class="img-responsive">
+        </div>
+        <div class="col-md-8">
+            <input type="file" v-on:change="onFileChange" class="form-control">
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-success btn-block" @click.prevent="upload">Upload</button>
         </div>
     </div>
 </template>
@@ -52,6 +50,14 @@
                 .then(response => {
                   Event.$emit('fileUploaded',{
                     filename: response.data.filename,
+                  });
+                })
+                .catch(function (error) {
+                  Vue.swal({
+                    title: 'File Upload Failure!',
+                    text: "File size should be less than 2Mb",
+                    type: 'warning',
+                    confirmButtonText: "Okay gotcha!"
                   });
                 });
             }
