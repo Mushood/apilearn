@@ -19,6 +19,19 @@ class BlogController extends Controller
 
     public function store(Request $request)
     {
+
+        $rules = [
+          'title' => 'required',
+          'body' => 'required',
+          'image' => 'required'
+        ];
+
+        $messages = [
+          'body.required' => 'The content field is required.'
+        ];
+
+        $this->validate($request, $rules, $messages);
+
         $blog = new Blog();
         $blog->title = $request->title;
         $blog->body = $request->body;

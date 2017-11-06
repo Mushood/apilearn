@@ -30266,6 +30266,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
@@ -30275,16 +30282,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     return {
       title: 'Blog Title',
       body: 'Blog Message',
-      picture: "sky.jpg"
+      picture: "sky.jpg",
+      errors: {}
     };
   },
 
-
-  validators: {
-    title: function title(value) {
-      return Vue.Validator.value(value).required();
-    }
-  },
 
   methods: {
     submitForm: function submitForm() {
@@ -30294,7 +30296,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         body: this.body,
         image: this.picture
       }).then(function (response) {
-        vm.resetForm();
 
         if (response.data.operation == "success") {
           Vue.swal({
@@ -30303,9 +30304,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             type: 'success',
             confirmButtonText: 'Cool'
           });
+          vm.resetForm();
         }
       }).catch(function (error) {
-        console.log(error);
+        Vue.swal({
+          title: 'Failure!',
+          text: error.response.data.message,
+          type: 'warning',
+          confirmButtonText: "Let's fix it!"
+        });
+
+        vm.errors = error.response.data;
       });
     },
 
@@ -30313,15 +30322,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.title = '';
       this.body = '';
       this.picture = '';
-    },
-
-    testValidation: function testValidation() {
-      this.Vue.$validate().then(function (success) {
-        if (success) {
-          alert('Validation succeeded!');
-        }
-      });
     }
+
   }
 
 });
@@ -30350,114 +30352,157 @@ var render = function() {
     _vm._v(" "),
     _c("div", { staticClass: "col-md-6" }, [
       _vm._v("\n    Blog form\n    "),
-      _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "form-group" }, [
-          _c("label", { attrs: { for: "title" } }, [_vm._v("Title")]),
-          _vm._v(" "),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.title,
-                expression: "title"
-              }
-            ],
-            staticClass: "form-control",
-            attrs: { type: "text", name: "title", id: "title" },
-            domProps: { value: _vm.title },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.title = $event.target.value
-              }
+      _c(
+        "form",
+        {
+          attrs: { method: "POST", action: "/blog" },
+          on: {
+            submit: function($event) {
+              $event.preventDefault()
+              _vm.submitForm($event)
             }
-          })
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "form-group" }, [
-          _c("label", { attrs: { for: "content" } }, [_vm._v("Content")]),
-          _vm._v(" "),
-          _c("textarea", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.body,
-                expression: "body"
-              }
-            ],
-            staticClass: "form-control",
-            attrs: { name: "content", id: "content", rows: "8" },
-            domProps: { value: _vm.body },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.body = $event.target.value
-              }
-            }
-          })
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "form-group" }, [
-          _c("label", { attrs: { for: "image" } }, [_vm._v("Image")]),
-          _vm._v(" "),
-          _c(
-            "select",
-            {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.picture,
-                  expression: "picture"
-                }
-              ],
-              attrs: { name: "image" },
-              on: {
-                change: function($event) {
-                  var $$selectedVal = Array.prototype.filter
-                    .call($event.target.options, function(o) {
-                      return o.selected
-                    })
-                    .map(function(o) {
-                      var val = "_value" in o ? o._value : o.value
-                      return val
-                    })
-                  _vm.picture = $event.target.multiple
-                    ? $$selectedVal
-                    : $$selectedVal[0]
-                }
-              }
-            },
-            [
-              _c("option", { attrs: { value: "sky.jpg" } }, [_vm._v("sky")]),
+          }
+        },
+        [
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "form-group" }, [
+              _c("label", { attrs: { for: "title" } }, [_vm._v("Title")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "ocean.jpg" } }, [_vm._v("ocean")])
-            ]
-          )
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "row" }, [
-        _c(
-          "button",
-          { staticClass: "btn btn-primary", on: { click: _vm.submitForm } },
-          [_vm._v("\n        I like what I see!\n      ")]
-        )
-      ])
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.title,
+                    expression: "title"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { type: "text", name: "title", id: "title" },
+                domProps: { value: _vm.title },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.title = $event.target.value
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _vm.errors.errors
+                ? _c("span", [
+                    _vm.errors.errors.title
+                      ? _c("h5", { staticClass: "alert alert-danger" }, [
+                          _vm._v(_vm._s(_vm.errors.errors.title[0]))
+                        ])
+                      : _vm._e()
+                  ])
+                : _vm._e()
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "form-group" }, [
+              _c("label", { attrs: { for: "content" } }, [_vm._v("Content")]),
+              _vm._v(" "),
+              _c("textarea", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.body,
+                    expression: "body"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { name: "content", id: "content", rows: "8" },
+                domProps: { value: _vm.body },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.body = $event.target.value
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _vm.errors.errors
+                ? _c("span", [
+                    _vm.errors.errors.body
+                      ? _c("h5", { staticClass: "alert alert-danger" }, [
+                          _vm._v(_vm._s(_vm.errors.errors.body[0]))
+                        ])
+                      : _vm._e()
+                  ])
+                : _vm._e()
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "form-group" }, [
+              _c("label", { attrs: { for: "image" } }, [_vm._v("Image")]),
+              _vm._v(" "),
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.picture,
+                      expression: "picture"
+                    }
+                  ],
+                  attrs: { name: "image" },
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.picture = $event.target.multiple
+                        ? $$selectedVal
+                        : $$selectedVal[0]
+                    }
+                  }
+                },
+                [
+                  _c("option", { attrs: { value: "sky.jpg" } }, [
+                    _vm._v("sky")
+                  ]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "ocean.jpg" } }, [
+                    _vm._v("ocean")
+                  ])
+                ]
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _vm._m(0)
+        ]
+      )
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("button", { staticClass: "btn btn-primary" }, [
+        _vm._v("\n        I like what I see!\n      ")
+      ])
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
