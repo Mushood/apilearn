@@ -28,31 +28,19 @@
         methods: {
             onFileChange(e) {
                 let files = e.target.files || e.dataTransfer.files;
-                let vm = this;
                 if (!files.length)
                     return;
-                this.createImage(files[0]).then(function(result){
-                  console.log(result);
-                  vm.upload();
-                });
+                this.createImage(files[0]);
                 this.imageName = files[0]['name'];
             },
             createImage(file) {
-              return new Promise((resolve,reject) => {
                 let reader = new FileReader();
                 let vm = this;
                 reader.onload = (e) => {
                     vm.image = e.target.result;
+                    vm.upload();
                 };
                 reader.readAsDataURL(file);
-
-                if(this.image != ""){
-                  resolve("Stuff worked!");
-                } else {
-                  reject("It broke");
-                }
-              });
-
             },
             upload(){
                 let vm = this;
