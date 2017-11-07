@@ -10,12 +10,15 @@ import router from './routes';
 
 import VueSweetalert2 from 'vue-sweetalert2';
 import SimpleVueValidation from 'simple-vue-validator';
+import MultipleFileUploader from 'vue2-multi-uploader'
 
 window.Vue = require('vue');
 Vue.use(VueSweetalert2);
 Vue.use(SimpleVueValidation);
 
 Vue.component('file-upload',require('./components/FileUpload.vue'));
+Vue.component('multiple-custom-file-upload',require('./components/FileUploadMultiple.vue'));
+Vue.component('MultipleFileUploader', MultipleFileUploader);
 
 window.Event = new Vue();
 /**

@@ -26,6 +26,10 @@
                          <router-link tag="li" to="/write">
                              <a>Write</a>
                          </router-link>
+
+                         <router-link tag="li" to="/gallery">
+                             <a>Gallery</a>
+                         </router-link>
                      </ul>
                  </div>
              </div>

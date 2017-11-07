@@ -11,6 +11,11 @@ let routes = [
         component: require('./views/write')
     },
 
+    {
+        path: '/gallery',
+        component: require('./views/gallery')
+    },
+
 ];
 
 export default new VueRouter({

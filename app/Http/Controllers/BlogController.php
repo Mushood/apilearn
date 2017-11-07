@@ -64,4 +64,19 @@ class BlogController extends Controller
         'filename' => $fileName
       ]);
     }
+
+    public function storeImageMultiple(Request $request)
+    {
+
+      dd($request);
+      $imageData = $request->get('image');
+      $filename =  $request->get('imageName');
+      $fileName = Carbon::now()->timestamp . '_' . $filename;
+      $manager = new ImageManager();
+      $savedImage= $manager->make($request->get('image'))->save(public_path('images/').$fileName);
+      return response()->json([
+        'error' => false,
+        'filename' => $fileName
+      ]);
+    }
 }

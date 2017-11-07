@@ -23,6 +23,7 @@
     "sweetalert2": "^6.11.4",
     "vee-validate": "^2.0.0-rc.21",
     "vue-router": "^3.0.1",
-    "vue-sweetalert2": "^1.0.7"
+    "vue-sweetalert2": "^1.0.7",
+    "vue2-multi-uploader": "^1.4.1"
   }
 }
