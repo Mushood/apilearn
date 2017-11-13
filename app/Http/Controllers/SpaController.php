@@ -10,4 +10,14 @@ class SpaController extends Controller
     {
         return view('spa');
     }
+
+    public function textEditor()
+    {
+        return view('texteditor');
+    }
+
+    public function textEditorStore(Request $request)
+    {
+        dd($request);
+    }
 }

@@ -26,3 +26,6 @@ Route::post('/blog/image/multiple', 'BlogController@storeImageMultiple')->name('
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/text_editor', 'SpaController@textEditor')->name('textEditor');
+Route::post('/text_editor', 'SpaController@textEditorStore')->name('textEditorStore');
