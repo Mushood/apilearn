@@ -16,6 +16,16 @@ let routes = [
         component: require('./views/gallery')
     },
 
+    {
+        path: '/multiple',
+        component: require('./views/multiple')
+    },
+
+    {
+        path: '/test',
+        component: require('./views/test')
+    },
+
 ];
 
 export default new VueRouter({

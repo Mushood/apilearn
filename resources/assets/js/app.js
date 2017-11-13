@@ -22,6 +22,8 @@ Vue.component('file-upload',require('./components/FileUpload.vue'));
 Vue.component('multiple-custom-file-upload',require('./components/FileUploadMultiple.vue'));
 Vue.component('MultipleFileUploader', MultipleFileUploader);
 
+Vue.component('AbertaMultipleFileUploader', require('./views/multiple.vue'));
+
 window.Event = new Vue();
 /**
  * Next, we will create a fresh Vue application instance and attach it to

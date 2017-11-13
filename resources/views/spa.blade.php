@@ -30,6 +30,14 @@
                          <router-link tag="li" to="/gallery">
                              <a>Gallery</a>
                          </router-link>
+
+                         <router-link tag="li" to="/multiple">
+                             <a>MultipleFileUploader</a>
+                         </router-link>
+
+                         <router-link tag="li" to="/test">
+                             <a>Test</a>
+                         </router-link>
                      </ul>
                  </div>
              </div>
